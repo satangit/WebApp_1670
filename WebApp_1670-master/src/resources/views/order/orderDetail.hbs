@@ -1,0 +1,116 @@
+<body onload="getTotal()">
+<!-- Page Header Start -->
+<div class="container-fluid bg-secondary mb-5">
+    <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <h1 class="font-weight-semi-bold text-uppercase mb-3">Shopping Cart</h1>
+        <div class="d-inline-flex">
+            <p class="m-0"><a href="">Home</a></p>
+            <p class="m-0 px-2">-</p>
+            <p class="m-0">Order detail</p>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Cart Start -->
+<div class="container-fluid pt-5">
+    <div class="row px-xl-5">
+        <div class="col-lg-8 table-responsive mb-5">
+            <table class="table table-bordered text-center mb-0">
+                <thead class="bg-secondary text-dark">
+                <tr>
+                    <th></th>
+                    <th>Book Title</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                </tr>
+                </thead>
+                <tbody class="align-middle">
+                {{#each item.items as |i|}}
+                    <tr onload="subtotal()">
+                        <td><img src="{{i.product.image}}" alt="" style="width: 50px;"></td>
+                        <td class="align-middle">{{i.product.name}}</td>
+                        <td class="align-middle">${{i.product.price}}</td>
+                        <td class="align-middle">
+                            {{i.quantity}}
+                        </td>
+                        <td class="align-middle total" id="{{i.total}}">${{i.total}}</td>
+                    </tr>
+                {{!-- <h1>d{{sum 1 2}}</h1> --}}
+
+                {{/each}}
+                </tbody>
+            </table>
+        </div>
+        <div class="col-lg-4">
+
+            <div class="card border-secondary mb-5">
+                <div class="card-header bg-secondary border-0">
+                    <h4 class="font-weight-semi-bold m-0">Delivery information</h4>
+                </div>
+
+                <div class="card-body" id="checkout">
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">Name</h6>
+                        <h6 class="font-weight-medium">{{item.name}}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Phone</h6>
+                        <h6 class="font-weight-medium"><i id="phone">{{item.phone}}</i></h6>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium">Address: </h6>
+                        <h6 class="font-weight-medium"><i id="phone"></i></h6>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <h6 class="font-weight-medium"></h6>
+                        <p class="font-weight-medium"><i id="phone">{{item.address}}</i></p>
+                    </div>
+
+                    <div class="card-footer border-secondary bg-transparent">
+                        <div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Total</h5>
+                            <h5 class="font-weight-bold">$<i id="total"></i></h5>
+                        </div><div class="d-flex justify-content-between mt-2">
+                            <h5 class="font-weight-bold">Status</h5>
+                            <h5 class="font-weight-bold" id="d">{{item.status}}</h5>
+                        </div>
+                        <a href="/order/delete?id={{item._id}}"><button class="btn btn-block btn-primary my-3 py-3" id="cancel_btn">Cancel
+                        </button></a>
+                        <a href="/order/accept?id={{item._id}}"><button  class="btn btn-block btn-primary my-3 py-3" id="accept_btn">Delivery confirm
+                        </button></a>
+                    </div>
+                </div>
+                <input type="text" value="{{user.role}}" id="role" hidden>
+                <input type="text" value="{{item.status}}" id="status" hidden>
+                <script>
+                    let status = document.getElementById("status").value;
+
+                    if (role != "admin"){
+                        document.getElementById("accept_btn").hidden = true;
+                    }
+
+                    if (status == "cancel"){
+                        document.getElementById("cancel_btn").disabled = true;
+                    }
+
+                    function getTotal() {
+                        let itemTotal = document.getElementsByClassName('total');
+                        let total = 0;
+                        for (let i = 0; i < itemTotal.length; i++) {
+                            total += parseInt(itemTotal[i].id);
+                        }
+                        document.getElementById('total').innerText = total;
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+    <!-- Cart End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+</body>

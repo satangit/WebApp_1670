@@ -1,0 +1,57 @@
+<style>
+    .Filter-btn{
+        width: 150px;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Find by status: </th>
+        <th><a href="/order/orderList?status=order"><button class="Filter-btn">Order</button></a></th>
+        <th><a href="/order/orderList?status=cancel_request"><button class="Filter-btn">Cancel request</button></a></th>
+        <th><a href="/order/orderList?status=shipping"><button class="Filter-btn">Shipping</button></a></th>
+        <th><a href="/order/orderList?status=done"><button class="Filter-btn">Complete</button></a></th>
+        <th><a href="/order/orderList?status=cancel"><button class="Filter-btn">Cancel</button></a></th>
+    </tr>
+</table>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Phone</th>
+        <th>Delivery Address</th>
+        <th>Order date</th>
+        <th>Status</th>
+        <th>Detail</th>
+        
+    </tr>
+    </thead>
+    <tbody>
+    <h1>{{userRole}}</h1>
+    {{#each orders}}
+        <tr>
+            <td>{{name}}</td>
+            <td>{{phone}}</td>
+            <td>{{address}}</td>
+            <td onload="formatDate(this)">{{date}}</td>
+            <td>{{status}}</td>
+            <td><a href="/order/detail?id={{_id}}">Detail</a></td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>
+<input type="text" value="{{user.role}}" disabled>
+<script>
+    function formatDate() {
+        alert(1)
+        let date = this.value;
+
+    }
+
+    function delete_id(id) {
+        let confirm = window.confirm("Are you sure?");
+        if (confirm) {
+            window.location.href = "/order/delete?id=" + id;
+        }
+    };
+</script>
